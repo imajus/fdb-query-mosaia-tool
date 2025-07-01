@@ -1,22 +1,26 @@
 {
-  "name": "mosaia-tools-starter",
+  "name": "filo-data-broker-tool",
   "version": "0.0.1",
-  "description": "A hello-world implementation of a tool that can be used my Mosaia's agents",
-  "author": "",
+  "description": "Mosaia tool to query FiloDataBroker datasets",
+  "author": "Denis Perov <denis.perov@gmail.com>",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start:dev": "npm run build && node bin/dev.js",
-    "test:request": "curl -XGET \"http://localhost:3000?EXAMPLE_PARAM_ONE=foo&EXAMPLE_PARAM_TWO=bar\" && echo",
-    "validate:manifest": "node bin/validate-manifest.js"
+    "test:request": "curl -XGET \"http://localhost:3000?datasetId=0x7dA47e0E00173d9Fa860379E018b76ADEd769290&sql=SELECT+*+FROM+dataset+LIMIT+3\" && echo",
+    "validate:manifest": "node bin/validate-manifest.cjs"
   },
   "devDependencies": {
     "@types/node": "^20.12.11",
     "ajv": "^8.12.0",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "filo-data-broker": "latest"
+  }
 }

@@ -1,39 +1,41 @@
-const dotenv = require('dotenv');
-const express = require('express');
-const { handler } = require('../dist/index');
+import dotenv from 'dotenv';
+import express from 'express';
+import { handler } from '../dist/index.js';
 
 dotenv.config();
 
 const app = express();
 
-const { ENV_VAR_ONE, PORT } = process.env;
+const { ETHEREUM_PRIVATE_KEY, PORT } = process.env;
 
-if(ENV_VAR_ONE === undefined) {
-    console.log('`ENV_VAR_ONE` not set. Copy .env.example to .env first.');
-    process.exit(1);
+if (ETHEREUM_PRIVATE_KEY === undefined) {
+  console.log(
+    '`ETHEREUM_PRIVATE_KEY` not set. Copy .env.example to .env first.'
+  );
+  process.exit(1);
 }
 
 app.get('/', async (req, res) => {
-    const { EXAMPLE_PARAM_ONE, EXAMPLE_PARAM_TWO } = req.query;
+  const { datasetId, sql } = req.query;
 
-    const event = {
-        body: JSON.stringify({
-            args: {
-                EXAMPLE_PARAM_ONE,
-                EXAMPLE_PARAM_TWO
-            },
-            secrets: {
-                ENV_VAR_ONE
-            }
-        })
-    }
+  const event = {
+    body: JSON.stringify({
+      args: {
+        datasetId,
+        sql,
+      },
+      secrets: {
+        ETHEREUM_PRIVATE_KEY,
+      },
+    }),
+  };
 
-    const result = await handler(event)
+  const result = await handler(event);
 
-    res.status(result.statusCode).send(result.body);
+  res.status(result.statusCode).send(result.body);
 });
 
 const port = PORT || 3000;
 app.listen(port, () => {
-    console.log(`Local development server running on port ${port}`);
+  console.log(`Local development server running on port ${port}`);
 });

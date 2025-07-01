@@ -1,9 +1,12 @@
-export default async function toolCall(paramOne: string, paramTwo: string, envVar: string): Promise<string> {
-    let result = '';
+/// <reference types="filo-data-broker/types.d.ts" />
+import { FilecoinDatasetFactory } from 'filo-data-broker';
 
-    console.log(`Received event with the following parameters: ${paramOne}, ${paramTwo} and the following env var: ${envVar}.`)
-
-    result = paramOne + paramTwo;
-
-    return result;
+export default async function toolCall(
+  address: string,
+  sql: string
+): Promise<string> {
+  const factory = new FilecoinDatasetFactory();
+  const dataset = await factory.get(address);
+  const rows = await dataset.query(sql);
+  return JSON.stringify(rows);
 }

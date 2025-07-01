@@ -10,24 +10,24 @@
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "EXAMPLE_PARAM_ONE": {
+                    "datasetId": {
                         "type": "string",
-                        "description": "EXAMPLE_PARAM_ONE_DESCRIPTION"
+                        "description": "Dataset ID"
                     },
-                    "EXAMPLE_PARAM_TWO": {
+                    "sql": {
                         "type": "string",
-                        "description": "EXAMPLE_PARAM_TWO_DESCRIPTION"
+                        "description": "SQL query to execute"
                     }
                 },
                 "required": [
-                    "EXAMPLE_PARAM_ONE",
-                    "EXAMPLE_PARAM_TWO"
+                    "datasetId",
+                    "sql"
                 ],
                 "additionalProperties": false
             }
         }
     },
     "envVars": [
-        "ENV_VAR_ONE"
+        "ETHEREUM_PRIVATE_KEY"
     ]
 }
