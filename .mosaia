@@ -1,0 +1,33 @@
+{
+    "name": "Query FiloDataBroker Dataset",
+    "description": "Fetch data from a FiloDataBroker dataset.",
+    "schema": {
+        "type": "function",
+        "function": {
+            "name": "Query FiloDataBroker Dataset",
+            "description": "FileDataBroker is a secure, decentralized marketplace for data trading. This tool enables AI agents to query datasets using SQL syntax. Only public columns can be used in a query and private columns can be included in the output.",
+            "strict": true,
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "EXAMPLE_PARAM_ONE": {
+                        "type": "string",
+                        "description": "EXAMPLE_PARAM_ONE_DESCRIPTION"
+                    },
+                    "EXAMPLE_PARAM_TWO": {
+                        "type": "string",
+                        "description": "EXAMPLE_PARAM_TWO_DESCRIPTION"
+                    }
+                },
+                "required": [
+                    "EXAMPLE_PARAM_ONE",
+                    "EXAMPLE_PARAM_TWO"
+                ],
+                "additionalProperties": false
+            }
+        }
+    },
+    "envVars": [
+        "ENV_VAR_ONE"
+    ]
+}
