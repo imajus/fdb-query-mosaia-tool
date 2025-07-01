@@ -1,0 +1,124 @@
+---
+description: 
+globs: src/index.ts
+alwaysApply: false
+---
+# Tool Implementation Architecture
+
+## Core Components
+
+### Handler Function ([src/index.ts](mdc:src/index.ts))
+The main entry point that processes incoming events and returns structured responses:
+- Receives event objects with tool call information
+- Calls the appropriate tool function based on the tool name
+- Returns formatted responses with success/error status
+- Handles all tool routing and response formatting
+
+### Tool Implementation ([src/tool-call.ts](mdc:src/tool-call.ts))
+Contains the core logic for the FiloDataBroker dataset listing functionality:
+- Implements the `listDatasets` function
+- Returns structured dataset metadata
+- Currently uses mock data (awaiting FiloDataBroker API integration)
+- Provides consistent response format for all datasets
+
+## Response Structure
+All tool responses follow this format:
+```javascript
+{
+  success: boolean,
+  data: any, // Tool-specific response data
+  error?: string // Only present when success is false
+}
+```
+
+## Dataset Response Format
+Each dataset object contains:
+- `id`: Unique identifier
+- `name`: Human-readable dataset name
+- `description`: Detailed description of the dataset
+- `categories`: Array of category tags
+- `size`: Dataset size information
+- `provider`: Data provider information
+- `accessLevel`: Access control level
+
+## Development Patterns
+- Use TypeScript for type safety
+- Implement error handling in all functions
+- Return consistent response structures
+- Mock external API calls during development
+- Validate all inputs and outputs
+
+# Tool Implementation Patterns
+
+## Handler Function Pattern
+The [src/index.ts](mdc:src/index.ts) file exports a `handler` function that follows this pattern:
+
+```typescript
+export async function handler(event: RawEvent) {
+    // 1. Parse event body (args and secrets available but not used)
+    const { args, secrets } = JSON.parse(event.body) as ParsedEvent;
+    
+    // 2. Call the tool implementation (no parameters needed)
+    const result = await toolCall();
+    
+    // 3. Return formatted response
+    return {
+        statusCode: 200,
+        body: JSON.stringify(result)
+    };
+}
+```
+
+## Tool Logic Implementation
+The actual tool logic in [src/tool-call.ts](mdc:src/tool-call.ts):
+
+- **Purpose**: List all available FiloDataBroker datasets
+- **Parameters**: None required - returns all datasets
+- **Return**: Structured object with datasets array and metadata
+- **Response Format**: Each dataset includes id, name, description, categories, size, provider, access_level
+- **Error Handling**: Throws errors that are caught by the handler
+
+## Current Response Structure
+```typescript
+{
+    datasets: [
+        {
+            id: string,
+            name: string, 
+            description: string,
+            categories: string[],
+            size: string,
+            updated: string,
+            provider: string,
+            access_level: "public" | "premium" | "restricted"
+        }
+    ],
+    total_count: number,
+    last_updated: string
+}
+```
+
+## Parameter Configuration
+Parameters are defined in [.mosaia](mdc:.mosaia) under `schema.function.parameters`:
+
+- **Current State**: Empty parameters object - no input required
+- **Design**: Tool lists all datasets by default
+- **Future Enhancement**: Could add optional filters for categories, providers, or access levels
+
+## Environment Variables
+- **Current State**: No environment variables required in manifest
+- **Future Enhancement**: May need FiloDataBroker API credentials for live data
+- **Configuration**: Add to `envVars` array in [.mosaia](mdc:.mosaia) when needed
+
+## Implementation Status
+- **Handler**: ✅ Updated to work with no parameters
+- **Tool Logic**: ✅ Returns mock data with proper structure  
+- **API Integration**: ❌ TODO - Replace mock data with real FiloDataBroker API calls
+- **Error Handling**: ✅ Basic error handling in place
+
+## Best Practices
+1. **Keep tool logic in** [src/tool-call.ts](mdc:src/tool-call.ts) **separate from handler boilerplate**
+2. **Return structured data** that AI agents can easily parse and use
+3. **Handle errors gracefully** and return meaningful messages
+4. **Test locally before deploying** with `npm run start:dev`
+5. **Validate manifest changes** with `npm run validate:manifest`

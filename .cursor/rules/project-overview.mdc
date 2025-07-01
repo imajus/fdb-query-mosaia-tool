@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Mosaia Tool: FiloDataBroker Query Tool
+
+## Project Purpose
+This is a **Mosaia Tool** designed to execute SQL queries against specific datasets from FiloDataBroker. FiloDataBroker is a secure, decentralized marketplace for data trading, and this tool enables AI agents to query datasets by providing a dataset address and SQL query.
+
+## How Mosaia Tools Work
+- Mosaia tools are serverless functions that extend AI agent capabilities
+- They are deployed automatically when pushed to the `main` branch
+- Tools are defined by a [.mosaia](mdc:.mosaia) manifest file that describes the tool's interface
+- The main entry point is [src/index.ts](mdc:src/index.ts) which exports a `handler` function
+- Actual tool logic is implemented in [src/tool-call.ts](mdc:src/tool-call.ts)
+
+## Key Architecture
+- **Handler Function**: Receives events with datasetId and sql parameters, plus ETHEREUM_PRIVATE_KEY secret
+- **Tool Function**: Uses FilecoinDatasetFactory to access and query blockchain datasets
+- **Manifest**: [.mosaia](mdc:.mosaia) file defines the tool with required parameters (datasetId, sql)
+- **Build Process**: TypeScript code in `src/` is compiled to JavaScript in `dist/` via [tsconfig.json](mdc:tsconfig.json)
+
+## Current Implementation
+- **Required Parameters**: 
+  - `datasetId`: The address of the FiloDataBroker dataset on the blockchain
+  - `sql`: The SQL query to execute against the dataset
+- **Environment Variables**: `ETHEREUM_PRIVATE_KEY` required for blockchain access
+- **Live Data Integration**: Uses `FilecoinDatasetFactory` from `filo-data-broker` package
+- **Response Format**: Returns actual query results as JSON array
+
+## Integration with FiloDataBroker
+- **Dependency**: Uses `filo-data-broker` npm package for direct API integration
+- **Dataset Access**: Accesses datasets via blockchain addresses using FilecoinDatasetFactory
+- **SQL Execution**: Executes SQL queries against decentralized datasets
+- **Security**: Uses Ethereum private key for secure blockchain interactions
+- **Real-time Querying**: Provides direct access to live blockchain data
+
+## Tool Registry
+Once deployed, this tool appears in the Mosaia Tool Registry and can be added to AI agents to extend their capabilities with FiloDataBroker dataset querying functionality. AI agents can then:
+1. **Execute SQL Queries**: Run custom SQL queries against any accessible FiloDataBroker dataset
+2. **Access Blockchain Data**: Query decentralized datasets stored on Filecoin/IPFS
+3. **Real-time Results**: Get up-to-date data directly from the blockchain
+4. **Secure Access**: Use Ethereum-based authentication for dataset access
+5. **Custom Analytics**: Perform complex data analysis using SQL on decentralized datasets
+
+## Dataset Metadata Integration
+The tool leverages FiloDataBroker's DatasetMetadata interface which includes:
+- `id`: Unique dataset identifier
+- `name`: Human-readable dataset name
+- `description`: Dataset description
+- `publicColumns`: Array of publicly accessible column names
+- `privateColumns`: Array of private/restricted column names  
+- `price`: Cost for accessing the dataset

@@ -1,0 +1,92 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Workflow
+
+## Setup and Installation
+1. Install dependencies: `npm install`
+2. Validate manifest: `npm run validate:manifest`
+3. Build project: `npm run build`
+4. Start development server: `npm run start:dev`
+
+## Build Process
+- **Source**: TypeScript files in [src/](mdc:src) directory
+- **Output**: JavaScript files compiled to [dist/](mdc:dist) directory
+- **Command**: `npm run build` (runs `tsc` compiler)
+- **Config**: [tsconfig.json](mdc:tsconfig.json) defines compilation settings
+
+## Local Development
+1. **Build**: `npm run build` - Compiles TypeScript to JavaScript
+2. **Start**: `npm run start:dev` - Builds and starts local Express server on port 3000
+3. **Test**: `npm run test:request` - Tests the FiloDataBroker dataset querying functionality
+
+### Development Server
+- Use **[bin/dev.js](mdc:bin/dev.js)** for local development
+- Server runs on port 3000 and provides tool testing endpoints
+- Automatically loads and validates [.mosaia](mdc:.mosaia) manifest
+- Test with: `curl -XGET "http://localhost:3000?datasetId=0x7dA47e0E00173d9Fa860379E018b76ADEd769290&sql=SELECT+*+FROM+dataset+LIMIT+3"`
+
+### Code Structure
+- Source code in **[src/](mdc:src)** directory (TypeScript)
+- Build output to **[dist/](mdc:dist)** directory (JavaScript)
+- Main entry point: **[src/index.ts](mdc:src/index.ts)**
+- Tool logic: **[src/tool-call.ts](mdc:src/tool-call.ts)**
+
+## Testing the FiloDataBroker Query Tool
+- **Manual Testing**: `npm run test:request` executes SQL query against sample dataset
+- **Required Parameters**: 
+  - `datasetId`: Dataset address (e.g., "0x7dA47e0E00173d9Fa860379E018b76ADEd769290")
+  - `sql`: SQL query string (e.g., "SELECT * FROM dataset LIMIT 3")
+- **Environment Variable**: `ETHEREUM_PRIVATE_KEY` required for blockchain access
+- **Postman**: Import [postman/Mosaia Tools Starter.postman_collection.json](mdc:postman/Mosaia Tools Starter.postman_collection.json) for advanced testing
+
+## Expected Response Format
+The tool returns actual query results as JSON array:
+```json
+[
+  {
+    "column1": "value1",
+    "column2": "value2", 
+    "column3": "value3"
+  },
+  {
+    "column1": "value4",
+    "column2": "value5",
+    "column3": "value6"
+  }
+]
+```
+
+## Validation and Testing
+- **Manifest Validation**: `npm run validate:manifest` validates [.mosaia](mdc:.mosaia)
+- **Validation Script**: [bin/validate-manifest.cjs](mdc:bin/validate-manifest.cjs) checks required fields and types
+- **Build Verification**: `npm run build` compiles TypeScript and outputs to [dist/](mdc:dist)
+- **Type Checking**: TypeScript configuration in [tsconfig.json](mdc:tsconfig.json)
+- **Parameter Validation**: Ensures datasetId and sql parameters are properly configured
+
+## Deployment Workflow
+1. Commit changes to feature branch
+2. Validate manifest and build locally
+3. Create pull request to `main` branch
+4. Automatic deployment on merge to `main`
+5. Tool becomes available in Mosaia Tool Registry within ~1 minute
+
+## Key Commands
+- `npm run start:dev` - Build and start development server
+- `npm run build` - Compile TypeScript to JavaScript
+- `npm run validate:manifest` - Validate .mosaia file structure
+- `npm run test:request` - Test the tool functionality with sample dataset query
+- `npm install` - Install project dependencies
+
+## Critical Files for Development
+- **[.mosaia](mdc:.mosaia)** - Must be valid before deployment, defines required parameters
+- **[package.json](mdc:package.json)** - Build scripts and dependencies
+- **[tsconfig.json](mdc:tsconfig.json)** - TypeScript compilation settings
+
+## Development Status
+- **✅ Handler Function**: Processes datasetId and sql parameters correctly
+- **✅ FiloDataBroker Integration**: Uses FilecoinDatasetFactory for dataset access
+- **✅ SQL Query Execution**: Executes queries against blockchain datasets
+- **✅ Error Handling**: Proper error handling and response formatting
