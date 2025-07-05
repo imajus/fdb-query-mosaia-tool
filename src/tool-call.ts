@@ -1,5 +1,5 @@
-/// <reference types="filo-data-broker/types.d.ts" />
-import { FilecoinDatasetFactory } from 'filo-data-broker';
+/// <reference types="filo-data-broker-mcp/types.d.ts" />
+import { FilecoinDatasetFactory } from 'filo-data-broker-mcp';
 
 export default async function toolCall(
   address: string,

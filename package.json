@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "start:dev": "npm run build && node bin/dev.js",
-    "test:request": "curl -XGET \"http://localhost:3000?datasetId=0x7dA47e0E00173d9Fa860379E018b76ADEd769290&sql=SELECT+*+FROM+dataset+LIMIT+3\" && echo",
+    "test:request": "curl -XGET \"http://localhost:3000?datasetId=0x52fa38b24B2FD7E30b6c88Ee6A2bA3be43CFc59a&sql=SELECT+*+FROM+dataset+LIMIT+3\" && echo",
     "validate:manifest": "node bin/validate-manifest.cjs"
   },
   "devDependencies": {
@@ -21,6 +21,6 @@
   },
   "license": "ISC",
   "dependencies": {
-    "filo-data-broker": "latest"
+    "filo-data-broker-mcp": "latest"
   }
 }
