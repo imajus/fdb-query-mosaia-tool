@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": false,
-    "checkJs": true,
+    "checkJs": false,
     "outDir": "./dist",
     "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/**/*.js"],
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.cjs"],
   "exclude": ["node_modules"]
 }

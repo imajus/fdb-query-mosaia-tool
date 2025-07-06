@@ -1,5 +1,5 @@
-/// <reference types="filo-data-broker-mcp/types.d.ts" />
-import { FilecoinDatasetFactory } from 'filo-data-broker-mcp';
+/// <reference types="./lib/types.d.ts" />
+import { FilecoinDatasetFactory } from './lib/bundle.cjs';
 
 export default async function toolCall(
   address: string,
@@ -7,6 +7,7 @@ export default async function toolCall(
 ): Promise<string> {
   const factory = new FilecoinDatasetFactory();
   const dataset = await factory.get(address);
+  await dataset.purchase(sql);
   const rows = await dataset.query(sql);
   return JSON.stringify(rows);
 }

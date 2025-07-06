@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import { handler } from '../dist/index.js';
+const dotenv = require('dotenv');
+const express = require('express');
+const { handler } = require('../dist/index.js');
 
 dotenv.config();
 
