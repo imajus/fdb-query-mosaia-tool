@@ -1,6 +1,6 @@
 {
   "name": "filo-data-broker-tool",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Mosaia tool to query FiloDataBroker datasets",
   "author": "Denis Perov <denis.perov@gmail.com>",
   "main": "dist/index.js",
